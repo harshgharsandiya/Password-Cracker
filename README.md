@@ -48,7 +48,7 @@ python main.py
 - [x] Multithreading
 - [ ] GPU Acceleration
 - [ ] Hashing Password Cracking
-- [ ] Dynamic Wordlist Generation 
+- [x] Dynamic Wordlist Generation 
 - [ ] Pause/Resume Progress with Logging
 - [ ] Optimize Memory for Large Wordlists
 - [ ] Support for Encrypted Archives & Nested Files
