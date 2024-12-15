@@ -1,6 +1,8 @@
 import itertools
 import string
 
+from utils.colors import print_error
+
 def parse_charset(charset_string):
     """
     return appropriate character set
@@ -27,6 +29,11 @@ def generate_custom_wordlist(charset, min_length, max_length, first_char_rule=No
     Based on specified rules generate wordlists
     """
     wordlist = []
+    
+    if not isinstance(min_length, int) or not isinstance(max_length, int) or min_length > max_length:
+        print_error("[-] Invalid min_length or max_length for custom wordlist.")
+        return None
+    
     first_char_set = charset if first_char_rule is None else first_char_rule
     
     #Generate passwords

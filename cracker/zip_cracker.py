@@ -1,12 +1,8 @@
 import zipfile
 from tqdm import tqdm
 
-from utils.colors import print_success, print_error, ColorConfig
+from utils.colors import ColorConfig
 from utils.thread_handler import generic_threaded_cracker
-from utils.file_handler import validate_file
-
-import os
-
 
 def crack_zip_worker(passwords_chunk, zip_file, verbose):
     
@@ -20,7 +16,7 @@ def crack_zip_worker(passwords_chunk, zip_file, verbose):
                 if zf.testzip() is None:
                     tqdm.write(f"{ColorConfig.SUCCESS}Password found: {pwd.strip()}{ColorConfig.RESET}")
                     return pwd.strip()
-            except RuntimeError:
+            except Exception as e:
                 continue
             
     return None
