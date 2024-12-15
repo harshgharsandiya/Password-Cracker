@@ -55,7 +55,7 @@ python main.py
 - [ ] Interactive CLI
 - [ ] Integration of External Wordlists (Download Feature)
 - [ ] Error handling & Debugging Tools
-- [ ] Save Cracked Password to File(txt/json)
+- [x] Save Cracked Password to File(txt/json)
 - [ ] Password Strength Estimation
 
 
