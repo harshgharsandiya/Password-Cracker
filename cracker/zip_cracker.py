@@ -25,9 +25,10 @@ def crack_zip_worker(passwords_chunk, zip_file, verbose):
             
     return None
 
-def crack_zip(zip_file, wordlist_file, verbose, isWordlist, threads):
+def crack_zip(zip_file, wordlist_file, verbose, threads):
     
-    passwords = validate_file(zip_file, wordlist_file, isWordlist)
+    passwords = wordlist_file
+    
     if passwords is None:
         return None  
         

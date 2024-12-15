@@ -23,9 +23,10 @@ def main():
     threads = args.threads
     output = args.output
 
-    is_wordlist, wordlist_input =  parse_user_input(file, word, wordlist)
-        
-    pwd = crack_zip(file, wordlist_input, verbose, is_wordlist, threads)
+    wordlist_input =  parse_user_input(file, word, wordlist)
+    
+    pwd = crack_zip(file, wordlist_input, verbose, threads)
+    
     write_output(file, pwd, output, verbose)
     
 if __name__ == "__main__":
