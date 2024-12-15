@@ -1,0 +1,4 @@
+zipfile
+tqdm
+argparse
+colorama
