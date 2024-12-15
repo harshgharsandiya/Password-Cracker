@@ -2,7 +2,7 @@ import zipfile
 from tqdm import tqdm
 
 from utils.colors import print_success, print_error, ColorConfig
-from utils.thread_manager import generic_threaded_cracker
+from utils.thread_handler import generic_threaded_cracker
 from utils.file_handler import validate_file
 
 import os
