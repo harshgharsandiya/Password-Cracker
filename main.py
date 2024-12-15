@@ -5,6 +5,7 @@ from utils.command_line_args import parse_arg
 #import necessary library
 import sys
 import argparse
+import os
 
 def main():
     """Run Password Cracker here"""
@@ -18,13 +19,17 @@ def main():
     #Optional
     verbose = args.verbose
     threads = args.threads
+    output = args.output
     
-    if file and word:
-        pwd = crack_zip(file, word, verbose, 0, threads)
-    elif file and wordlist:
-        pwd = crack_zip(file, wordlist, verbose, 1, threads)
+    if wordlist:
+        is_wordlist = True
+        wordlist_input = wordlist
     else:
-        sys.exit(0)
+        is_wordlist = False
+        wordlist_input = word
+        
+    pwd = crack_zip(file, wordlist_input, verbose, is_wordlist, threads)
+
     
 
 if __name__ == "__main__":

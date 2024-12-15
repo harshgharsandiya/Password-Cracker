@@ -1,39 +1,39 @@
 import threading
 from concurrent.futures import ThreadPoolExecutor
+from utils.colors import print_error
 
-def crack_zip_thread(zip_file, passwords, verbose, num_threads=4):
+#Generic Threaded Cracker
+
+def generic_threaded_cracker(task_function, task_args, tasks, num_threads):
+    """
+    Generic threading fn to divide tasks and run worker fn parallel.
     
-    #Divide pwd for each thread
-    chunk_size = len(passwords) // num_threads
-    passwords_chunk = [passwords[i:i + chunk_size] for i in range(0, len(passwords), chunk_size)]
+    Args:
+        task_function: fn to execute each task chunk
+        task_args: tuple of extra arg passed to task fn
+        tasks : list of task to be divided among threads
+        num_threads : num of threads
+    """
+    
+    chunk_size = len(tasks) // num_threads
+    remainder = len(tasks) % num_threads
+    task_chunks = []
+    
+    si = 0
+    for i in range(num_threads):
+        ei = si + chunk_size + (1 if i < remainder else 0)
+        task_chunks.append(tasks[si:ei])
+        si = ei
     
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
         futures = []
-        for chunk in passwords_chunk:
-            futures.append(executor.submit(crack_zip_worker, zip_file, chunk, verbose))
+        for chunk in task_chunks:
+            futures.append(executor.submit(task_function, chunk, *task_args))
             
-        for future in futures:
-            res = future.result()
-            if res: return res
-                        
-    #No pass found        
-    print_error("Password not Found")
-    return None
-
-
-def crack_zip_worker(zip_file, passwords_chunk, verbose):
-    
-    with zip_file.ZipFile(zip_file, 'r') as zf:
-        for pwd in tqdm(passwords_chunk, desc="Cracking ZIP"):
-            if verbose:
-                tqdm.write(f"{ColorConfig.INFO}Trying password: {pwd.strip()}{ColorConfig.RESET}")
-            try:
-                zf.setpassword(bytes(pwd.strip(), 'utf-8'))
-                #password found
-                if zf.testzip() is None:
-                    print_success(f"Password found: {pwd.strip()}")
-                    return pwd.strip()
-            except RuntimeError:
-                continue
             
+            for future in futures:
+                result = future.result()
+                if result:
+                    return result
+    print_error("Password not found")
     return None
